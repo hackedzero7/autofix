@@ -171,6 +171,19 @@
   }
 }
 
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -184,14 +197,22 @@
   animation: glow 2s ease-in-out infinite alternate;
 }
 
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
 .glass-effect {
   backdrop-filter: blur(10px);
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid rgba(255, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 0, 0, 0.2);
 }
 
 .red-glow {
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+.section-glow {
+  box-shadow: 0 0 50px rgba(255, 0, 0, 0.1);
 }
 
 .hover-lift {

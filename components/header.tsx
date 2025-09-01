@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { Car, Zap } from "lucide-react"
 
 import { useState, useEffect } from "react"
 
@@ -50,12 +51,22 @@ export default function Header() {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center animate-glow">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
+                <div className="relative">
+                  <div className="w-12 h-12 bg-gradient-to-br from-primary to-red-600 rounded-xl flex items-center justify-center animate-glow shadow-lg">
+                    <Car className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
+                    <Zap className="w-2 h-2 text-white animate-ping" />
+                  </div>
                 </div>
-                <h1 className="text-2xl font-serif font-bold text-primary">AutoFix Pro</h1>
+                <div className="flex flex-col">
+                  <h1 className="text-2xl font-serif font-bold bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent">
+                    CBR
+                  </h1>
+                  <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase">
+                    Car Battery Replacement
+                  </p>
+                </div>
               </div>
             </div>
           </div>

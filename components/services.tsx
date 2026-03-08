@@ -143,7 +143,7 @@ export default function Services() {
         </div>
 
         <div className="text-center mt-24">
-          <div className="bg-gradient-to-br from-card to-muted/20 rounded-3xl p-12 border border-border/50 shadow-2xl backdrop-blur-sm">
+          <div className=" rounded-3xl p-12 border border-primary shadow-2xl backdrop-blur-sm">
             <h3 className="text-3xl lg:text-4xl font-serif font-bold text-foreground mb-6">
               Need a Custom Service Package?
             </h3>

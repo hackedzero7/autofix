@@ -129,7 +129,7 @@ export default function Footer() {
               <div className="flex items-start space-x-3">
                 <Phone className="w-5 h-5 text-red-500 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-white font-semibold">+1 (800) 123-4567</p>
+                  <p className="text-white font-semibold">(056) 730-4650</p>
                   <p className="text-gray-400 text-sm">24/7 Emergency Line</p>
                 </div>
               </div>
@@ -137,7 +137,7 @@ export default function Footer() {
               <div className="flex items-start space-x-3">
                 <Mail className="w-5 h-5 text-red-500 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-white">info@autofixpro.com</p>
+                  <p className="text-white">proautocarep@gmail.com</p>
                   <p className="text-gray-400 text-sm">Quick Response</p>
                 </div>
               </div>
@@ -145,16 +145,16 @@ export default function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-red-500 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-white">123 Auto Service Blvd</p>
-                  <p className="text-gray-400">Dubai, UAE 12345</p>
+                  {/* <p className="text-white">123 Auto Service Blvd</p> */}
+                  <p className="text-gray-400">Abu Dhabi, UAE</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
                 <Clock className="w-5 h-5 text-red-500 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-white font-semibold">Mon-Fri: 8AM-8PM</p>
-                  <p className="text-gray-400">Sat-Sun: 9AM-6PM</p>
+                  {/* <p className="text-white font-semibold">Mon-Fri: 8AM-8PM</p>
+                  <p className="text-gray-400">Sat-Sun: 9AM-6PM</p> */}
                   <p className="text-red-500 text-sm font-semibold">24/7 Emergency</p>
                 </div>
               </div>
@@ -169,7 +169,7 @@ export default function Footer() {
               <span className="text-red-500 font-semibold"> Licensed & Insured Professional Service</span>
             </p>
             <p className="text-gray-500 text-sm mt-1">
-              Serving Dubai and surrounding areas with premium automotive care
+              Serving Abu Dhabi and surrounding areas with premium automotive care
             </p>
           </div>
 

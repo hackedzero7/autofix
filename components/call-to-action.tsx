@@ -85,7 +85,7 @@ export default function CallToAction() {
               className="relative flex items-center gap-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-2xl"
             >
               <Phone className="w-5 h-5" />
-              <span>Call (123) 456-7890</span>
+              <span>Call (056) 730-4650</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
@@ -93,7 +93,7 @@ export default function CallToAction() {
           {/* Secondary CTA - WhatsApp */}
           <div className="group relative">
             <a
-              href="https://wa.me/1234567890"
+              href="https://wa.me/+971567304650"
               className="flex items-center gap-3 bg-black/50 backdrop-blur-sm border-2 border-red-500/30 hover:border-red-400 text-white hover:bg-red-600/10 px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-300 transform group-hover:scale-105"
             >
               <MessageCircle className="w-5 h-5" />
@@ -119,7 +119,7 @@ export default function CallToAction() {
           {[
             { number: "5000+", label: "Happy Customers", icon: Star },
             { number: "24/7", label: "Emergency Service", icon: Clock },
-            { number: "15min", label: "Response Time", icon: Zap },
+            { number: "Quick", label: "Response Time", icon: Zap },
             { number: "100%", label: "Satisfaction Rate", icon: Shield },
           ].map((stat, index) => {
             const Icon = stat.icon

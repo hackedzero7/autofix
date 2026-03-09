@@ -141,7 +141,7 @@ export default function Testimonials() {
 
             <div className="group bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-gray-800/50 rounded-2xl px-6 py-6 hover:border-red-500/50 transition-all duration-500 hover:scale-105">
               <div className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-400 bg-clip-text text-transparent mb-2">
-                15min
+                Quick
               </div>
               <div className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">Avg Response</div>
             </div>

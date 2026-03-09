@@ -145,7 +145,7 @@ export default function Header() {
               24/7 Emergency
             </div>
             <a
-              href="tel:+1234567890"
+              href="tel:+971567304650"
               className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/25 animate-pulse-red"
             >
               Call Now

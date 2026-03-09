@@ -1,6 +1,67 @@
-import { Phone, Mail, MapPin, Clock, MessageSquare, CheckCircle, Zap } from "lucide-react"
+'use client';
+
+import { Phone, Mail, MapPin, Clock, MessageSquare, CheckCircle, Zap, Loader2 } from "lucide-react"
+import { useState } from "react"
+import { toast } from "sonner"
 
 export default function Contact() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    service: '',
+    location: '',
+    message: ''
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit form');
+      }
+
+      toast.success('Service request submitted successfully! We will contact you shortly.');
+      
+      // Reset form
+      setFormData({
+        fullName: '',
+        phone: '',
+        email: '',
+        service: '',
+        location: '',
+        message: ''
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit service request';
+      toast.error(errorMessage);
+      console.error('[v0] Form submission error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-24 bg-background relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -40,10 +101,10 @@ export default function Contact() {
                     <h4 className="font-semibold text-foreground mb-1">24/7 Emergency Hotline</h4>
                     <p className="text-muted-foreground mb-2">Call us anytime for immediate assistance</p>
                     <a
-                      href="tel:+1234567890"
+                      href="tel:+971567304650"
                       className="text-primary font-semibold hover:text-primary/80 transition-colors"
                     >
-                      +1 (234) 567-8900
+                     (056) 730-4650
                     </a>
                   </div>
                 </div>
@@ -56,10 +117,10 @@ export default function Contact() {
                     <h4 className="font-semibold text-foreground mb-1">Email Support</h4>
                     <p className="text-muted-foreground mb-2">Get detailed quotes and information</p>
                     <a
-                      href="mailto:info@autofixpro.com"
+                      href="mailto:proautocarep@gmail.com"
                       className="text-primary font-semibold hover:text-primary/80 transition-colors"
                     >
-                      info@autofixpro.com
+                      proautocarep@gmail.com
                     </a>
                   </div>
                 </div>
@@ -71,7 +132,7 @@ export default function Contact() {
                   <div>
                     <h4 className="font-semibold text-foreground mb-1">Service Location</h4>
                     <p className="text-muted-foreground mb-2">We come to you anywhere in the city</p>
-                    <p className="text-foreground">Dubai, UAE - Mobile Service</p>
+                    <p className="text-foreground">Abu Dhabi, UAE - Mobile Service</p>
                   </div>
                 </div>
 
@@ -83,8 +144,6 @@ export default function Contact() {
                     <h4 className="font-semibold text-foreground mb-1">Service Hours</h4>
                     <p className="text-muted-foreground mb-2">Available 24/7 for emergencies</p>
                     <div className="text-foreground">
-                      <p>Mon-Fri: 7:00 AM - 10:00 PM</p>
-                      <p>Sat-Sun: 8:00 AM - 8:00 PM</p>
                       <p className="text-primary font-semibold">Emergency: 24/7</p>
                     </div>
                   </div>
@@ -98,8 +157,8 @@ export default function Contact() {
                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
                   <Zap className="w-6 h-6 text-primary" />
                 </div>
-                <h4 className="font-semibold text-foreground mb-1">15 Min</h4>
-                <p className="text-sm text-muted-foreground">Average Response Time</p>
+                <h4 className="font-semibold text-foreground mb-1">Quick</h4>
+                <p className="text-sm text-muted-foreground">30 Minute Response Time</p>
               </div>
               <div className="glass-effect p-6 rounded-xl border border-border/20 text-center">
                 <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
@@ -115,12 +174,16 @@ export default function Contact() {
           <div className="glass-effect p-8 rounded-2xl border border-border/20">
             <h3 className="text-2xl font-serif font-bold text-foreground mb-6">Request Service</h3>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">Full Name</label>
                   <input
                     type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-3 bg-background/50 border border-border/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
                     placeholder="Your full name"
                   />
@@ -129,6 +192,10 @@ export default function Contact() {
                   <label className="block text-sm font-semibold text-foreground mb-2">Phone Number</label>
                   <input
                     type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-3 bg-background/50 border border-border/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
                     placeholder="Your phone number"
                   />
@@ -139,6 +206,10 @@ export default function Contact() {
                 <label className="block text-sm font-semibold text-foreground mb-2">Email Address</label>
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
                   className="w-full px-4 py-3 bg-background/50 border border-border/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
                   placeholder="your.email@example.com"
                 />
@@ -146,15 +217,21 @@ export default function Contact() {
 
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">Service Needed</label>
-                <select className="w-full px-4 py-3 bg-background/50 border border-border/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300">
-                  <option>Select a service</option>
-                  <option>Car Battery Replacement</option>
-                  <option>AC Repair</option>
-                  <option>Oil Change Service</option>
-                  <option>Tyre Change</option>
-                  <option>Jumpstart Service</option>
-                  <option>Car Recovery</option>
-                  <option>Other</option>
+                <select 
+                  name="service"
+                  value={formData.service}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 bg-background/50 border border-border/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
+                >
+                  <option value="">Select a service</option>
+                  <option value="Car Battery Replacement">Car Battery Replacement</option>
+                  <option value="AC Repair">AC Repair</option>
+                  <option value="Oil Change Service">Oil Change Service</option>
+                  <option value="Tyre Change">Tyre Change</option>
+                  <option value="Jumpstart Service">Jumpstart Service</option>
+                  <option value="Car Recovery">Car Recovery</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -162,6 +239,10 @@ export default function Contact() {
                 <label className="block text-sm font-semibold text-foreground mb-2">Location</label>
                 <input
                   type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleInputChange}
+                  required
                   className="w-full px-4 py-3 bg-background/50 border border-border/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
                   placeholder="Your current location"
                 />
@@ -170,6 +251,10 @@ export default function Contact() {
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">Message</label>
                 <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
                   rows={4}
                   className="w-full px-4 py-3 bg-background/50 border border-border/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300 resize-none"
                   placeholder="Describe your issue or requirements..."
@@ -178,9 +263,17 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-primary/25 animate-glow"
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 disabled:from-primary/50 disabled:to-accent/50 text-primary-foreground px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] disabled:scale-100 shadow-lg hover:shadow-primary/25 animate-glow flex items-center justify-center gap-2"
               >
-                Request Service Now
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  'Request Service Now'
+                )}
               </button>
             </form>
           </div>

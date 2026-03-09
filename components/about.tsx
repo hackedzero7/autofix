@@ -1,141 +1,157 @@
-import { Award, Users, Clock, Shield, CheckCircle, Star, Target, TrendingUp, Wrench, Zap } from "lucide-react"
+import { Award, Users, Clock, Shield, CheckCircle, Star, Target, TrendingUp, Wrench, Zap, Gauge, Lightbulb, Heart } from "lucide-react"
 
 export default function About() {
   return (
-    <section id="about" className="py-32 bg-gradient-to-b from-black via-gray-900/30 to-black relative overflow-hidden">
+    <section id="about" className="py-32 bg-black relative overflow-hidden">
+      {/* Animated background elements */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-r from-red-500/30 to-red-600/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-l from-red-600/25 to-red-500/15 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-red-500/20 rounded-full blur-2xl animate-bounce"></div>
-
-        <div className="absolute top-40 right-32 w-16 h-16 border-2 border-red-500/40 rotate-45 animate-spin"></div>
-        <div className="absolute bottom-60 left-20 w-12 h-12 bg-red-500/30 transform rotate-12 animate-bounce delay-700"></div>
-        <div className="absolute top-3/4 right-1/4 w-8 h-8 bg-red-400/40 rounded-full animate-ping delay-1500"></div>
-        <div className="absolute top-1/3 left-1/5 w-20 h-2 bg-red-500/30 animate-pulse delay-300"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-2 h-20 bg-red-600/30 animate-pulse delay-800"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
-          <div className="text-left">
-            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-red-500/20 to-red-600/10 border border-red-500/30 rounded-full px-6 py-2 mb-6 backdrop-blur-sm hover:scale-105 transition-transform duration-300">
-              <Wrench className="w-4 h-4 text-red-500 animate-spin" />
-              <span className="text-red-400 font-semibold text-sm tracking-wide">Premium Auto Care</span>
-            </div>
-
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-white mb-6 leading-tight">
-              About{" "}
-              <span className="relative">
-                <span className="text-transparent bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text">
-                  AutoCare Pro
-                </span>
-                <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-50"></div>
-              </span>
-            </h2>
-
-            <p className="text-lg text-gray-300 leading-relaxed font-light mb-8">
-              Your trusted automotive service partner delivering premium car battery replacement, AC repair, and
-              comprehensive auto maintenance with cutting-edge technology.
-            </p>
-
-            <div className="space-y-4">
-              {[
-                { icon: CheckCircle, text: "15+ Years of Excellence" },
-                { icon: Zap, text: "24/7 Emergency Service" },
-                { icon: Shield, text: "100% Satisfaction Guarantee" },
-              ].map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center">
-                    <item.icon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-gray-300 font-medium">{item.text}</span>
-                </div>
-              ))}
-            </div>
+        {/* Header Section */}
+        <div className="mb-24">
+          <div className="inline-flex items-center gap-3 bg-gradient-to-r from-red-500/20 to-red-600/10 border border-red-500/30 rounded-full px-6 py-2 mb-8 backdrop-blur-sm">
+            <Wrench className="w-4 h-4 text-red-500 animate-spin" />
+            <span className="text-red-400 font-semibold text-sm tracking-wide">Who We Are</span>
           </div>
-
-          <div className="grid grid-cols-2 gap-6">
-            {[
-              { value: "15+", label: "Years Experience", icon: Award, color: "red-500" },
-              { value: "5000+", label: "Happy Customers", icon: Users, color: "red-600" },
-              { value: "24/7", label: "Emergency Service", icon: Clock, color: "red-500" },
-              { value: "100%", label: "Satisfaction Rate", icon: TrendingUp, color: "red-600" },
-            ].map((stat, index) => (
-              <div key={index} className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
-                <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 text-center hover:scale-105 hover:border-red-500/40 transition-all duration-300">
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl mx-auto flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-300">
-                    <stat.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-red-500 to-red-600 bg-clip-text mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-gray-400 text-xs font-medium uppercase tracking-wide">{stat.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <h2 className="text-6xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            Premium Auto Care<br />
+            <span className="text-transparent bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text">
+              Redefined
+            </span>
+          </h2>
+          <p className="text-lg text-gray-300 max-w-2xl font-light leading-relaxed">
+            With over 15 years of expertise and 5000+ satisfied customers, AutoCare Pro has established itself as the leader in premium automotive maintenance and emergency services.
+          </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        {/* Stats Grid Section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24">
+          {[
+            { value: "15+", label: "Years Experience", icon: Award },
+            { value: "5000+", label: "Happy Customers", icon: Users },
+            { value: "24/7", label: "Emergency Service", icon: Clock },
+            { value: "100%", label: "Satisfaction Rate", icon: TrendingUp },
+          ].map((stat, index) => (
+            <div key={index} className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
+              <div className="relative bg-gradient-to-br from-gray-900/90 to-gray-800/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 text-center hover:scale-105 hover:border-red-500/40 transition-all duration-300">
+                <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl mx-auto flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-300">
+                  <stat.icon className="w-6 h-6 text-white" />
+                </div>
+                <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-red-500 to-red-600 bg-clip-text mb-2">
+                  {stat.value}
+                </div>
+                <div className="text-gray-400 text-xs font-medium uppercase tracking-wide">{stat.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Mission, Vision, Values Grid */}
+        <div className="grid lg:grid-cols-3 gap-8 mb-24">
           {/* Mission Card */}
           <div className="group relative">
             <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-            <div className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/50 to-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 hover:border-red-500/40 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 h-full">
+            <div className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/50 to-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 hover:border-red-500/40 transition-all duration-500 h-full">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Target className="w-7 h-7 text-white" />
                 </div>
-                <div>
-                  <h3 className="text-2xl font-serif font-bold text-white">Our Mission</h3>
-                  <div className="w-16 h-1 bg-gradient-to-r from-red-500 to-red-600 rounded-full"></div>
-                </div>
+                <h3 className="text-2xl font-bold text-white">Mission</h3>
               </div>
               <p className="text-gray-300 leading-relaxed font-light">
-                To revolutionize automotive care by combining state-of-the-art technology with decades of expertise,
-                ensuring every vehicle receives premium service that exceeds expectations and keeps you confidently on
-                the road.
+                To revolutionize automotive care by combining cutting-edge technology with decades of expertise, ensuring every vehicle receives exceptional service.
+              </p>
+            </div>
+          </div>
+
+          {/* Vision Card */}
+          <div className="group relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 to-red-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
+            <div className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/50 to-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 hover:border-red-600/40 transition-all duration-500 h-full">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 bg-gradient-to-br from-red-600 to-red-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Lightbulb className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-white">Vision</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed font-light">
+                To be the trusted partner for automotive excellence, setting industry standards through innovation, reliability, and customer-centric solutions.
               </p>
             </div>
           </div>
 
           {/* Values Card */}
           <div className="group relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 to-red-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-            <div className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/50 to-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 hover:border-red-600/40 transition-all duration-500 hover:shadow-2xl hover:shadow-red-600/20 h-full">
+            <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
+            <div className="relative bg-gradient-to-br from-gray-900/90 via-gray-800/50 to-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-3xl p-8 hover:border-red-500/40 transition-all duration-500 h-full">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 bg-gradient-to-br from-red-600 to-red-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Star className="w-7 h-7 text-white" />
+                <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Heart className="w-7 h-7 text-white" />
                 </div>
-                <div>
-                  <h3 className="text-2xl font-serif font-bold text-white">Our Values</h3>
-                  <div className="w-16 h-1 bg-gradient-to-r from-red-600 to-red-500 rounded-full"></div>
-                </div>
+                <h3 className="text-2xl font-bold text-white">Values</h3>
               </div>
-
-              <div className="space-y-3">
-                {[
-                  { icon: CheckCircle, text: "Master-certified technicians" },
-                  { icon: Clock, text: "24/7 emergency assistance" },
-                  { icon: Award, text: "Premium OEM parts only" },
-                  { icon: Shield, text: "Lifetime service guarantees" },
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-red-500/10 transition-all duration-300 group/item"
-                  >
-                    <div className="w-8 h-8 bg-gradient-to-br from-red-500/30 to-red-600/20 rounded-lg flex items-center justify-center group-hover/item:scale-110 transition-transform duration-300">
-                      <item.icon className="w-4 h-4 text-red-400" />
-                    </div>
-                    <span className="text-gray-300 font-medium text-sm group-hover/item:text-white transition-colors duration-300">
-                      {item.text}
-                    </span>
-                  </div>
-                ))}
-              </div>
+              <p className="text-gray-300 leading-relaxed font-light">
+                Integrity, excellence, and customer satisfaction drive every decision we make. We believe in transparent communication and quality workmanship.
+              </p>
             </div>
           </div>
         </div>
+
+        {/* Core Competencies Section */}
+        <div className="mb-24">
+          <h3 className="text-4xl font-bold text-white mb-12">Our Core Competencies</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Gauge,
+                title: "Battery Replacement",
+                description: "Professional car battery installation with premium OEM parts and lifetime warranty"
+              },
+              {
+                icon: Zap,
+                title: "AC System Repair",
+                description: "Expert air conditioning maintenance ensuring optimal cooling performance year-round"
+              },
+              {
+                icon: Wrench,
+                title: "General Maintenance",
+                description: "Comprehensive vehicle maintenance using certified technicians and quality parts"
+              },
+              {
+                icon: Shield,
+                title: "Diagnostic Services",
+                description: "State-of-the-art diagnostic equipment to identify and resolve vehicle issues quickly"
+              },
+              {
+                icon: Clock,
+                title: "Emergency Roadside",
+                description: "24/7 emergency assistance for breakdowns, jump starts, and roadside repairs"
+              },
+              {
+                icon: Award,
+                title: "Fleet Services",
+                description: "Dedicated fleet maintenance programs for businesses and commercial vehicles"
+              },
+            ].map((service, index) => (
+              <div key={index} className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-red-600/5 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
+                <div className="relative bg-gradient-to-br from-gray-900/80 to-gray-800/40 backdrop-blur-lg border border-gray-700/40 rounded-2xl p-6 hover:border-red-500/40 transition-all duration-300">
+                  <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <service.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <h4 className="text-lg font-bold text-white mb-2">{service.title}</h4>
+                  <p className="text-gray-400 text-sm font-light">{service.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        
       </div>
     </section>
   )

@@ -3,7 +3,7 @@ export default function FloatingContact() {
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
         {/* WhatsApp Widget */}
         <a
-          href="https://wa.me/1234567890?text=Hello! I need help with my car repair service."
+          href="https://wa.me/+971567304650?text=Hello! I need help with my car repair service."
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-green-500 shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
@@ -25,7 +25,7 @@ export default function FloatingContact() {
   
         {/* Phone Widget */}
         <a
-          href="tel:+1234567890"
+          href="tel:+971567304650"
           className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-red-600 to-red-500 shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
         >
           <svg
@@ -44,7 +44,7 @@ export default function FloatingContact() {
   
           {/* Tooltip */}
           <div className="absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-gray-900 px-3 py-2 text-sm text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            Call Now: +1 (234) 567-890
+            Call Now: 0567304650
             <div className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
           </div>
         </a>

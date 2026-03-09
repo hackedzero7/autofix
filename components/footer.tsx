@@ -71,7 +71,7 @@ export default function Footer() {
               every service, backed by certified technicians and state-of-the-art equipment.
             </p>
 
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               <a
                 href="#"
                 className="bg-gray-800 hover:bg-red-500 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
@@ -96,7 +96,7 @@ export default function Footer() {
               >
                 <Youtube className="w-5 h-5" />
               </a>
-            </div>
+            </div> */}
           </div>
 
           <div>

@@ -2,6 +2,7 @@ import Header from "../components/header"
 import Hero from "../components/hero"
 import About from "../components/about"
 import Services from "../components/services"
+import BatteryBrands from "../components/battery-brands"
 import Testimonials from "../components/testimonials"
 import CallToAction from "../components/call-to-action"
 import Contact from "../components/contact"
@@ -20,8 +21,9 @@ export default function HomePage() {
       <div className="relative z-10">
         <Header />
         <Hero />
-        <About />
         <Services />
+        <BatteryBrands />
+        <About />
         <Testimonials />
         <CallToAction />
         <Contact />

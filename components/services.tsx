@@ -7,7 +7,7 @@ export default function Services() {
       description:
         "Professional battery replacement with premium brands and instant installation service. Our certified technicians ensure your vehicle gets back on the road quickly with reliable, long-lasting batteries.",
       icon: Zap,
-      features: ["Free battery testing", "Premium battery brands", "Same-day service", "24-month warranty"],
+      features: ["Free battery testing", "Premium battery brands", "Same-day service", "Up to 24-month warranty"],
       popular: true,
       image: "/car-battery-replacement-service-mechanic-installin.png",
     },

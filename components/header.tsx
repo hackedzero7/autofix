@@ -10,7 +10,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["hero", "services", "about", "testimonials", "contact"]
+      const sections = ["hero", "services", "battery-brands", "about", "testimonials", "contact"]
       const scrollPosition = window.scrollY + 100
 
       for (const section of sections) {
@@ -84,6 +84,20 @@ export default function Header() {
                 <span
                   className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${
                     activeSection === "services" ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                ></span>
+              </a>
+              <a
+                href="#battery-brands"
+                onClick={(e) => handleSmoothScroll(e, "battery-brands")}
+                className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/10 rounded-lg relative group ${
+                  activeSection === "battery-brands" ? "text-primary" : "text-foreground hover:text-primary"
+                }`}
+              >
+                Battery Brands
+                <span
+                  className={`absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                    activeSection === "battery-brands" ? "w-full" : "w-0 group-hover:w-full"
                   }`}
                 ></span>
               </a>

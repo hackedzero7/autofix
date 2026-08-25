@@ -130,6 +130,13 @@ export default function Header() {
                 ></span>
               </a>
               <a
+                href="/blog"
+                className="px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/10 rounded-lg relative group text-foreground hover:text-primary"
+              >
+                Blog
+                <span className="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 w-0 group-hover:w-full"></span>
+              </a>
+              <a
                 href="#contact"
                 onClick={(e) => handleSmoothScroll(e, "contact")}
                 className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/10 rounded-lg relative group ${

@@ -60,9 +60,9 @@ export default function Header() {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <h1 className="text-2xl font-serif font-bold bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent">
+                  <span className="text-2xl font-serif font-bold bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent">
                     CBR
-                  </h1>
+                  </span>
                   <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase">
                     Car Battery Replacement
                   </p>
@@ -71,7 +71,7 @@ export default function Header() {
             </div>
           </div>
 
-          <nav className="hidden md:block">
+          <nav aria-label="Primary navigation" className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <a
                 href="#services"

@@ -22,7 +22,7 @@ export default function Footer() {
   }
 
   return (
-    <footer id="contact" className="relative bg-black text-white overflow-hidden">
+    <footer className="relative bg-black text-white overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-red-600/5 rounded-full blur-3xl animate-pulse delay-1000"></div>

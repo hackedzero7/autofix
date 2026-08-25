@@ -81,9 +81,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-    : undefined,
   icons: {
     icon: [{ url: "/placeholder-logo.svg", type: "image/svg+xml" }],
     shortcut: "/placeholder-logo.svg",

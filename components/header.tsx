@@ -4,9 +4,12 @@ import type React from "react"
 import { Car, Zap } from "lucide-react"
 
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 
 export default function Header() {
   const [activeSection, setActiveSection] = useState("")
+  const pathname = usePathname()
+  const isHomePage = pathname === "/"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,14 +37,16 @@ export default function Header() {
   }, [])
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault()
     const element = document.getElementById(targetId)
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
+    if (!element) {
+      return
     }
+
+    e.preventDefault()
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
   }
 
   return (
@@ -74,7 +79,7 @@ export default function Header() {
           <nav aria-label="Primary navigation" className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <a
-                href="#services"
+                href={isHomePage ? "#services" : "/#services"}
                 onClick={(e) => handleSmoothScroll(e, "services")}
                 className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/10 rounded-lg relative group ${
                   activeSection === "services" ? "text-primary" : "text-foreground hover:text-primary"
@@ -88,7 +93,7 @@ export default function Header() {
                 ></span>
               </a>
               <a
-                href="#battery-brands"
+                href={isHomePage ? "#battery-brands" : "/#battery-brands"}
                 onClick={(e) => handleSmoothScroll(e, "battery-brands")}
                 className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/10 rounded-lg relative group ${
                   activeSection === "battery-brands" ? "text-primary" : "text-foreground hover:text-primary"
@@ -102,7 +107,7 @@ export default function Header() {
                 ></span>
               </a>
               <a
-                href="#about"
+                href={isHomePage ? "#about" : "/#about"}
                 onClick={(e) => handleSmoothScroll(e, "about")}
                 className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/10 rounded-lg relative group ${
                   activeSection === "about" ? "text-primary" : "text-foreground hover:text-primary"
@@ -116,7 +121,7 @@ export default function Header() {
                 ></span>
               </a>
               <a
-                href="#testimonials"
+                href={isHomePage ? "#testimonials" : "/#testimonials"}
                 onClick={(e) => handleSmoothScroll(e, "testimonials")}
                 className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/10 rounded-lg relative group ${
                   activeSection === "testimonials" ? "text-primary" : "text-foreground hover:text-primary"
@@ -137,7 +142,7 @@ export default function Header() {
                 <span className="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 w-0 group-hover:w-full"></span>
               </a>
               <a
-                href="#contact"
+                href={isHomePage ? "#contact" : "/#contact"}
                 onClick={(e) => handleSmoothScroll(e, "contact")}
                 className={`px-4 py-2 text-sm font-medium transition-all duration-300 hover:bg-primary/10 rounded-lg relative group ${
                   activeSection === "contact" ? "text-primary" : "text-foreground hover:text-primary"

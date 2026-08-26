@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import BlogCard from "@/components/blog-card"
+import BlogList from "@/components/blog-list"
 import { blogs } from "@/data/blogs"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.proautocare.co"
@@ -72,9 +72,7 @@ export default function BlogPage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {blogs.map((post) => (
-              <BlogCard key={post.id} post={post} />
-            ))}
+            <BlogList posts={blogs} />
           </div>
         </section>
       </main>

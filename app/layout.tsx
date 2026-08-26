@@ -19,6 +19,7 @@ const sourceSansPro = Source_Sans_Pro({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.proautocare.co"
 const siteName = "Pro Auto Care"
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -30,6 +31,9 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: siteName,
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
   title: {
     default: "Pro Auto Care | Car Battery Replacement & Auto Service in Abu Dhabi",
     template: "%s | Pro Auto Care",

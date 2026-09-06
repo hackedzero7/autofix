@@ -14,6 +14,13 @@ export default function BlogList({ posts }: { posts: BlogPost[] }) {
 
   return (
     <>
+      <div className="col-span-full mb-1 flex items-center justify-between text-sm text-muted-foreground">
+        <span>
+          Showing <span className="font-semibold text-white">{visiblePosts.length}</span> of{" "}
+          <span className="font-semibold text-white">{posts.length}</span> articles
+        </span>
+      </div>
+
       {visiblePosts.map((post) => (
         <BlogCard key={post.id} post={post} />
       ))}

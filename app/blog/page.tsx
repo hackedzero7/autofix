@@ -64,7 +64,7 @@ export default function BlogPage() {
 
           <div className="mb-10 flex items-center justify-between border-b border-border/20 pb-4">
             <p className="text-sm uppercase tracking-[0.12em] text-muted-foreground">
-              {blogs.length} Articles
+              Total Articles: <span className="font-bold text-white">{blogs.length}</span>
             </p>
             <Link href="/" className="text-sm font-semibold text-primary hover:text-red-400">
               Return home

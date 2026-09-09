@@ -93,21 +93,20 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
   }
 
   return (
-    <div className="min-h-screen bg-black text-foreground">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      <Navbar />
+    <div className="min-h-screen bg-background text-foreground">
+      <Header />
 
-      <main className="relative pb-24 pt-32">
-        <div className="container mx-auto px-4 lg:px-8">
-          <Link
-            href="/blog"
-            className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-zinc-400 transition-colors hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Articles
-          </Link>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
 
-          <div className="mb-10 max-w-4xl">
+      <main className="min-h-screen bg-background text-foreground">
+        <article className="mx-auto max-w-4xl px-4 pb-20 pt-16 sm:px-6 lg:px-8">
+          <div className="mb-8 rounded-2xl border border-border/20 bg-gradient-to-br from-[#111111] via-[#0d0d0d] to-[#1c0d0d] p-6 shadow-[0_12px_30px_rgba(0,0,0,0.25)] sm:p-8">
+            <Link href="/blog" className="mb-6 inline-flex text-sm font-semibold text-primary hover:text-red-400">
+              ← Back to blog
+            </Link>
             <p className="mb-4 inline-flex items-center rounded-full border border-primary/30 bg-primary/15 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-red-400">
               {blog.category}
             </p>
@@ -194,6 +193,6 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
       </main>
 
       <Footer />
-    </>
+    </div>
   )
 }

@@ -1,0 +1,64 @@
+.theme {
+  color-scheme: dark;
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --card: #18181b;
+  --card-foreground: #f4f4f5;
+  --popover: #18181b;
+  --popover-foreground: #f4f4f5;
+  --primary: #dc2626;
+  --primary-foreground: #ffffff;
+  --secondary: #27272a;
+  --secondary-foreground: #f4f4f5;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --accent: #3f3f46;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #3f3f46;
+  --input: #71717a;
+  --ring: #f87171;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.theme > header {
+  background: #18181b;
+}
+
+.theme input,
+.theme textarea,
+.theme select {
+  background: #111114;
+  color: var(--foreground);
+  border-color: var(--input);
+  caret-color: #f87171;
+}
+
+.theme input::placeholder,
+.theme textarea::placeholder {
+  color: var(--muted-foreground);
+  opacity: 1;
+}
+
+.theme input:focus-visible,
+.theme textarea:focus-visible,
+.theme select:focus-visible {
+  border-color: var(--ring);
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.theme input[type="file"]::file-selector-button {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  border-radius: 4px;
+  padding-inline: 10px;
+  margin-right: 12px;
+}
+
+.theme input:autofill {
+  -webkit-text-fill-color: var(--foreground);
+  box-shadow: 0 0 0 1000px #111114 inset;
+}

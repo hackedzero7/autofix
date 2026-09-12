@@ -1,15 +1,25 @@
 "use client"
 
 import type React from "react"
-import { Car, Zap } from "lucide-react"
+import { Car, Zap, Menu } from "lucide-react"
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 
 export default function Header() {
   const [activeSection, setActiveSection] = useState("")
+  const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const isHomePage = pathname === "/"
+
+  useEffect(() => { setMenuOpen(false) }, [pathname])
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1280px)")
+    const close = () => { if (media.matches) setMenuOpen(false) }
+    media.addEventListener("change", close)
+    return () => media.removeEventListener("change", close)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,7 +78,7 @@ export default function Header() {
                   <span className="text-2xl font-serif font-bold bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent">
                     CBR
                   </span>
-                  <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase">
+                  <p className="hidden sm:block text-xs text-muted-foreground font-medium tracking-wide uppercase">
                     Car Battery Replacement
                   </p>
                 </div>
@@ -76,8 +86,8 @@ export default function Header() {
             </div>
           </div>
 
-          <nav aria-label="Primary navigation" className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
+          <nav aria-label="Primary navigation" className="hidden xl:block">
+            <div className="ml-6 flex items-baseline space-x-1">
               <a
                 href={isHomePage ? "#services" : "/#services"}
                 onClick={(e) => handleSmoothScroll(e, "services")}
@@ -158,8 +168,9 @@ export default function Header() {
             </div>
           </nav>
 
-          <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex items-center text-sm text-muted-foreground">
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <a href="/crm/login" className="hidden xl:block whitespace-nowrap text-sm font-medium hover:text-primary">Admin login</a>
+            <div className="hidden 2xl:flex items-center text-sm text-muted-foreground">
               <svg className="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -172,10 +183,25 @@ export default function Header() {
             </div>
             <a
               href="tel:+971567304650"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/25 animate-pulse-red"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-3 sm:px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-primary/25 animate-pulse-red"
             >
               Call Now
             </a>
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+              <SheetTrigger asChild>
+                <button type="button" className="xl:hidden rounded-lg border border-border p-3" aria-label="Open navigation menu"><Menu className="h-5 w-5" /></button>
+              </SheetTrigger>
+              <SheetContent className="overflow-y-auto">
+                <SheetHeader><SheetTitle>CBR Navigation</SheetTitle><SheetDescription>Services, advice, and admin access.</SheetDescription></SheetHeader>
+                <nav aria-label="Mobile navigation" className="flex flex-col gap-2 px-4">
+                  {[["services", "Services"], ["battery-brands", "Battery Brands"], ["about", "About"], ["testimonials", "Reviews"], ["contact", "Contact"]].map(([id, label]) => (
+                    <a key={id} href={isHomePage ? `#${id}` : `/#${id}`} className="rounded-lg px-4 py-3 hover:bg-primary/10" onClick={e => { setMenuOpen(false); handleSmoothScroll(e, id) }}>{label}</a>
+                  ))}
+                  <a href="/blog" onClick={() => setMenuOpen(false)} className="rounded-lg px-4 py-3 hover:bg-primary/10">Blog</a>
+                  <a href="/crm/login" onClick={() => setMenuOpen(false)} className="rounded-lg px-4 py-3 hover:bg-primary/10">Admin login</a>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

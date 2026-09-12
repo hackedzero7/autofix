@@ -6,10 +6,12 @@ Blogs stay inside the CRM, as requested. Public /blog pages continue using data/
 
 ## Setup
 
+.env.example is a template only: Next.js does not load it. Save actual values in .env.local or .env; .env.local takes precedence. Restart after changing configuration. On the first login with matching environment credentials, the admin is automatically stored in MongoDB with a hashed password. Existing accounts are not overwritten.
+
 1. Run `npm install --legacy-peer-deps` (the existing project has React peer dependency conflicts).
 2. Set `MONGODB_URI` in `.env.local` to your MongoDB Atlas or local database connection string.
 3. Set `CRM_ADMIN_EMAIL`, `CRM_ADMIN_PASSWORD` (12-128 characters), and optionally `CRM_ADMIN_NAME` in `.env.local`.
-4. Run `npm run crm:create-admin`. It creates an admin and refuses to overwrite existing accounts. Remove the bootstrap password from the environment afterward.
+4. No account creation command is required. On your first successful login with the configured credentials, the account is created automatically with a hashed password.
 5. Run `npm run dev`, open `/crm/login`, and sign in. You will be redirected to `/crm/admin`.
 
 Production requires HTTPS, a Node.js Next.js deployment, and MongoDB network access. Keep .env.local private. Session cookies are HttpOnly, SameSite=Lax, and Secure in production. Sessions expire after seven days; only token hashes are stored in MongoDB. Passwords use salted scrypt hashes. Login attempts are limited per email to ten per fifteen minutes. Mutating APIs require a matching Origin header; reverse proxies must preserve the application's request origin.
@@ -22,7 +24,7 @@ Required fields: title, slug, excerpt, category, author, readingTime, publishedA
 
 Limits: 100 blogs and 2 MB per request. Duplicate slugs in the input or admin library are rejected. Imports do not overwrite existing blogs. Validation runs before writes. If a database failure occurs during insertion, the response reports how many blogs were saved and the dashboard refreshes; remove saved entries before retrying. Export JSON downloads your library.
 
-MongoDB configuration and your JSON data are required before real uploads can be completed. No live accounts or blogs are automatically seeded.
+MongoDB configuration and your JSON data are required before real uploads can be completed. The configured admin is created on first login; blogs are imported separately.
 
 ## Checks
 

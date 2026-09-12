@@ -1,4 +1,5 @@
 import test from "node:test"
+import { matchingEnvAdmin } from "../lib/crm-bootstrap.ts"
 import assert from "node:assert/strict"
 import { blogInput, loginInput, parseImport } from "../lib/crm-validation.ts"
 import { hashPassword, verifyPassword } from "../lib/crm-password.ts"
@@ -43,4 +44,13 @@ test("password hashes are salted and reject wrong passwords and malformed hashes
 test("blog slugs are unique across the admin library and sessions have TTL indexes", () => {
   assert.ok(CrmBlog.schema.indexes().some(([keys, options]) => keys.slug === 1 && Object.keys(keys).length === 1 && options.unique))
   assert.ok(CrmSession.schema.indexes().some(([keys, options]) => keys.expiresAt === 1 && options.expireAfterSeconds === 0))
+})
+
+test("only matching server-configured credentials can bootstrap an admin", () => {
+  const env = { CRM_ADMIN_EMAIL: " ADMIN@example.com ", CRM_ADMIN_PASSWORD: "test-secret-123", CRM_ADMIN_NAME: "Site Admin" }
+  assert.deepEqual(matchingEnvAdmin({ email: "admin@example.com", password: "test-secret-123" }, env), { email: "admin@example.com", password: "test-secret-123", name: "Site Admin" })
+  assert.equal(matchingEnvAdmin({ email: "admin@example.com", password: "wrong" }, env), null)
+  assert.equal(matchingEnvAdmin({ email: "other@example.com", password: "test-secret-123" }, env), null)
+  assert.equal(matchingEnvAdmin({ email: "admin@example.com", password: "test-secret-123" }, {}), null)
+  assert.equal(matchingEnvAdmin({ email: "admin@example.com", password: "" }, { ...env, CRM_ADMIN_PASSWORD: "" }), null)
 })

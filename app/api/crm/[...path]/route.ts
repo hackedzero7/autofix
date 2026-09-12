@@ -4,8 +4,10 @@ import { isValidObjectId } from "mongoose"
 import { ZodError } from "zod"
 import { connectDB } from "@/lib/mongodb"
 import { CrmBlog, CrmSession, CrmUser, LoginAttempt } from "@/lib/crm-models"
-import { cookieName, createSession, currentUser, digest, verifyPassword } from "@/lib/crm-auth"
+import { cookieName, createSession, currentUser, digest, hashPassword, verifyPassword } from "@/lib/crm-auth"
 import { blogInput, loginInput, parseImport } from "@/lib/crm-validation"
+
+import { matchingEnvAdmin } from "@/lib/crm-bootstrap"
 
 export const runtime = "nodejs"
 const json = (data: unknown, status = 200) => NextResponse.json(data, { status, headers: { "Cache-Control": "no-store" } })
@@ -35,11 +37,31 @@ async function handle(req: NextRequest, context: { params: Promise<{ path: strin
     }
     if (route === "login" && method === "POST") {
       const input = loginInput.parse(await body(req))
+      if (!process.env.MONGODB_URI?.trim()) {
+        throw new HttpError(503, "Admin login is not configured. Set MONGODB_URI in .env or .env.local and restart the server. .env.example is not loaded by the app.")
+      }
       await connectDB()
       const key = digest(input.email)
       await LoginAttempt.deleteOne({ key, expiresAt: { $lte: new Date() } })
       const attempt = await LoginAttempt.findOneAndUpdate({ key }, { $inc: { count: 1 }, $setOnInsert: { expiresAt: new Date(Date.now() + 15 * 60 * 1000) } }, { upsert: true, new: true })
       if (attempt.count > 10) throw new HttpError(429, "Too many login attempts. Try again in 15 minutes.")
+      const configuredAdmin = matchingEnvAdmin(input)
+      if (configuredAdmin) {
+        await CrmUser.init()
+        // Insert once. Existing passwords, disabled accounts, and roles are never overwritten.
+        try {
+          await CrmUser.updateOne({ email: configuredAdmin.email }, { $setOnInsert: {
+            email: configuredAdmin.email,
+            name: configuredAdmin.name,
+            passwordHash: await hashPassword(configuredAdmin.password),
+            role: "admin",
+            active: true,
+          } }, { upsert: true, runValidators: true })
+        } catch (error) {
+          // A simultaneous first login may already have created this email.
+          if ((error as { code?: number }).code !== 11000) throw error
+        }
+      }
       const user = await CrmUser.findOne({ email: input.email, active: true, role: "admin" })
       const valid = await verifyPassword(input.password, user?.passwordHash || `${"0".repeat(32)}:${"0".repeat(128)}`)
       if (!user || !valid) throw new HttpError(401, "Email or password is incorrect.")

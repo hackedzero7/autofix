@@ -1,7 +1,7 @@
 import test from "node:test"
 import { matchingEnvAdmin } from "../lib/crm-bootstrap.ts"
 import assert from "node:assert/strict"
-import { blogInput, loginInput, parseImport } from "../lib/crm-validation.ts"
+import { blogInput, loginInput, parseImport, deleteAllBlogsInput } from "../lib/crm-validation.ts"
 import { hashPassword, verifyPassword } from "../lib/crm-password.ts"
 import { CrmBlog, CrmSession } from "../lib/crm-models.ts"
 
@@ -53,4 +53,9 @@ test("only matching server-configured credentials can bootstrap an admin", () =>
   assert.equal(matchingEnvAdmin({ email: "other@example.com", password: "test-secret-123" }, env), null)
   assert.equal(matchingEnvAdmin({ email: "admin@example.com", password: "test-secret-123" }, {}), null)
   assert.equal(matchingEnvAdmin({ email: "admin@example.com", password: "" }, { ...env, CRM_ADMIN_PASSWORD: "" }), null)
+})
+
+test("bulk deletion requires an explicit confirmation payload", () => {
+  for (const input of [null, {}, { confirmation: true }, { confirmation: "delete" }]) assert.throws(() => deleteAllBlogsInput.parse(input))
+  assert.equal(deleteAllBlogsInput.parse({ confirmation: "DELETE_ALL_BLOGS" }).confirmation, "DELETE_ALL_BLOGS")
 })

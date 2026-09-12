@@ -5,7 +5,7 @@ import { ZodError } from "zod"
 import { connectDB } from "@/lib/mongodb"
 import { CrmBlog, CrmSession, CrmUser, LoginAttempt } from "@/lib/crm-models"
 import { cookieName, createSession, currentUser, digest, hashPassword, verifyPassword } from "@/lib/crm-auth"
-import { blogInput, loginInput, parseImport } from "@/lib/crm-validation"
+import { blogInput, loginInput, parseImport, deleteAllBlogsInput } from "@/lib/crm-validation"
 
 import { matchingEnvAdmin } from "@/lib/crm-bootstrap"
 
@@ -81,6 +81,11 @@ async function handle(req: NextRequest, context: { params: Promise<{ path: strin
     if (user.role !== "admin") throw new HttpError(403, "Administrator access required.")
     // All blog operations below require an active administrator.
     if (route === "blogs" && method === "GET") return json(await CrmBlog.find({}).sort({ updatedAt: -1 }).lean())
+    if (route === "blogs" && method === "DELETE") {
+      deleteAllBlogsInput.parse(await body(req))
+      const result = await CrmBlog.deleteMany({})
+      return json({ deletedCount: result.deletedCount })
+    }
     if (route === "blogs" && method === "POST") {
       const input = blogInput.parse(await body(req))
       await CrmBlog.init()

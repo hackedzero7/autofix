@@ -24,3 +24,5 @@ export function parseImport(value: unknown) {
   if (new Set(posts.map(p => p.slug)).size !== posts.length) throw new Error("The import contains duplicate slugs.")
   return posts
 }
+
+export const deleteAllBlogsInput = z.object({ confirmation: z.literal("DELETE_ALL_BLOGS") })

@@ -36,3 +36,10 @@ test("login page renders with noindex metadata", async () => {
   assert.match(html, /Admin sign in/)
   assert.match(html, /noindex/)
 })
+
+test("bulk deletion rejects anonymous and cross-origin requests", async () => {
+  for (const [origin, expected] of [[base, 401], ["https://untrusted.example", 403]]) {
+    const response = await fetch(base + "/api/crm/blogs", { method: "DELETE", headers: { Origin: origin, "Content-Type": "application/json" }, body: JSON.stringify({ confirmation: "DELETE_ALL_BLOGS" }) })
+    assert.equal(response.status, expected)
+  }
+})

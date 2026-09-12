@@ -31,3 +31,7 @@ MongoDB configuration and your JSON data are required before real uploads can be
 `npm run test:crm` tests validation, password hashing, and schema indexes (Node.js 22.18+). With `npm run dev -- -p 3001` running, `node --test tests/crm-http.test.mjs` checks anonymous access, request origin protection, validation responses, and login redirects. Set CRM_TEST_URL for a different port. Full database integration requires a configured MongoDB instance.
 
 Public integration check: with a development server on port 3002 and MongoDB reachable, run `node --test tests/public-blog-http.test.mjs`. This reads existing data without creating or deleting records, checking publication filtering, sitemap entries, and article availability.
+
+## Delete all blogs
+
+The admin library has a Delete all blogs button. Confirmation deletes every draft and published blog, including those hidden by search, and removes published articles from the website on subsequent requests. Export JSON first if a backup is needed. Admin accounts are retained. The action is disabled while loading, during a request, or when the library is empty.

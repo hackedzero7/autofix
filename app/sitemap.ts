@@ -1,10 +1,13 @@
 import type { MetadataRoute } from "next"
 
-import { blogs } from "@/data/blogs"
+import { getPublishedBlogs } from "@/lib/public-blogs"
+
+export const dynamic = "force-dynamic"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.proautocare.co"
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const blogs = await getPublishedBlogs()
   const url = siteUrl.replace(/\/$/, "")
 
   const blogEntries = blogs.map((blog) => ({

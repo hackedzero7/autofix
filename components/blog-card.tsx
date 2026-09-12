@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
-import type { BlogPost } from "@/data/blogs"
+import type { BlogPost } from "@/lib/blog-types"
 
 export default function BlogCard({ post }: { post: BlogPost }) {
   return (

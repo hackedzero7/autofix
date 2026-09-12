@@ -4,17 +4,17 @@ import { notFound } from "next/navigation"
 
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import { blogs, getBlogBySlug } from "@/data/blogs"
+import { getPublishedBlogs, getPublishedBlogBySlug } from "@/lib/public-blogs"
+
+export const dynamic = "force-dynamic"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.proautocare.co"
 
-export function generateStaticParams() {
-  return blogs.map((blog) => ({ slug: blog.slug }))
-}
+
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const blog = getBlogBySlug(slug)
+  const blog = await getPublishedBlogBySlug(slug)
 
   if (!blog) {
     return {
@@ -60,13 +60,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const blog = getBlogBySlug(slug)
+  const blog = await getPublishedBlogBySlug(slug)
 
   if (!blog) {
     notFound()
   }
 
-  const relatedPosts = blogs.filter((post) => post.slug !== blog.slug).slice(0, 2)
+  const relatedPosts = (await getPublishedBlogs()).filter((post) => post.slug !== blog.slug).slice(0, 2)
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -86,7 +86,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
     },
     datePublished: blog.publishedAt,
     dateModified: blog.modifiedAt || blog.publishedAt,
-    mainEntityOfPage: `https://www.proautocare.co/blog/${blog.slug}`,
+    mainEntityOfPage: `${siteUrl}/blog/${blog.slug}`,
     articleSection: blog.category,
     keywords: blog.keywords.join(", "),
     inLanguage: "en-AE",
@@ -98,7 +98,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, "\u003c") }}
       />
 
       <main className="min-h-screen bg-background text-foreground">

@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 import BlogCard from "@/components/blog-card"
-import type { BlogPost } from "@/data/blogs"
+import type { BlogPost } from "@/lib/blog-types"
 
 const POSTS_PER_PAGE = 6
 

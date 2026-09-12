@@ -4,7 +4,9 @@ import type { Metadata } from "next"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import BlogList from "@/components/blog-list"
-import { blogs } from "@/data/blogs"
+import { getPublishedBlogs } from "@/lib/public-blogs"
+
+export const dynamic = "force-dynamic"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.proautocare.co"
 
@@ -43,7 +45,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const blogs = await getPublishedBlogs()
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -72,7 +75,7 @@ export default function BlogPage() {
           </div>
 
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            <BlogList posts={blogs} />
+            {blogs.length ? <BlogList posts={blogs} /> : <p className="col-span-full rounded-2xl border border-white/15 bg-zinc-900 p-8 text-zinc-300">No articles published yet. Check back soon for automotive advice.</p>}
           </div>
         </section>
       </main>

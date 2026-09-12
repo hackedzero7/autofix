@@ -169,7 +169,6 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
-            <a href="/crm/login" className="hidden xl:block whitespace-nowrap text-sm font-medium hover:text-primary">Admin login</a>
             <div className="hidden 2xl:flex items-center text-sm text-muted-foreground">
               <svg className="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -192,13 +191,12 @@ export default function Header() {
                 <button type="button" className="xl:hidden rounded-lg border border-border p-3" aria-label="Open navigation menu"><Menu className="h-5 w-5" /></button>
               </SheetTrigger>
               <SheetContent className="overflow-y-auto">
-                <SheetHeader><SheetTitle>CBR Navigation</SheetTitle><SheetDescription>Services, advice, and admin access.</SheetDescription></SheetHeader>
+                <SheetHeader><SheetTitle>CBR Navigation</SheetTitle><SheetDescription>Explore our services and automotive advice.</SheetDescription></SheetHeader>
                 <nav aria-label="Mobile navigation" className="flex flex-col gap-2 px-4">
                   {[["services", "Services"], ["battery-brands", "Battery Brands"], ["about", "About"], ["testimonials", "Reviews"], ["contact", "Contact"]].map(([id, label]) => (
                     <a key={id} href={isHomePage ? `#${id}` : `/#${id}`} className="rounded-lg px-4 py-3 hover:bg-primary/10" onClick={e => { setMenuOpen(false); handleSmoothScroll(e, id) }}>{label}</a>
                   ))}
                   <a href="/blog" onClick={() => setMenuOpen(false)} className="rounded-lg px-4 py-3 hover:bg-primary/10">Blog</a>
-                  <a href="/crm/login" onClick={() => setMenuOpen(false)} className="rounded-lg px-4 py-3 hover:bg-primary/10">Admin login</a>
                 </nav>
               </SheetContent>
             </Sheet>

@@ -35,3 +35,7 @@ Public integration check: with a development server on port 3002 and MongoDB rea
 ## Delete all blogs
 
 The admin library has a Delete all blogs button. Confirmation deletes every draft and published blog, including those hidden by search, and removes published articles from the website on subsequent requests. Export JSON first if a backup is needed. Admin accounts are retained. The action is disabled while loading, during a request, or when the library is empty.
+
+## Select and manage blogs
+
+Use row checkboxes or Select all blogs, then Delete selected or Publish selected drafts. When searching, Select all matching blogs selects only the visible results; changing search clears selection. Publishing updates only selected drafts. Deletion requires confirmation and affects only selected IDs. Both actions require an active admin session and refresh the library counts.

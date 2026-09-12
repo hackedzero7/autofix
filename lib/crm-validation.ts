@@ -26,3 +26,9 @@ export function parseImport(value: unknown) {
 }
 
 export const deleteAllBlogsInput = z.object({ confirmation: z.literal("DELETE_ALL_BLOGS") })
+
+const selectedBlogIds = z.array(z.string().regex(/^[a-fA-F0-9]{24}$/)).min(1).max(10000).transform(ids => [...new Set(ids.map(id => id.toLowerCase()))])
+export const bulkBlogsInput = z.discriminatedUnion("action", [
+  z.object({ action: z.literal("delete"), ids: selectedBlogIds, confirmation: z.literal("DELETE_SELECTED_BLOGS") }),
+  z.object({ action: z.literal("publish"), ids: selectedBlogIds }),
+])

@@ -1,7 +1,7 @@
 import test from "node:test"
 import { matchingEnvAdmin } from "../lib/crm-bootstrap.ts"
 import assert from "node:assert/strict"
-import { blogInput, loginInput, parseImport, deleteAllBlogsInput } from "../lib/crm-validation.ts"
+import { blogInput, loginInput, parseImport, deleteAllBlogsInput, bulkBlogsInput } from "../lib/crm-validation.ts"
 import { hashPassword, verifyPassword } from "../lib/crm-password.ts"
 import { CrmBlog, CrmSession } from "../lib/crm-models.ts"
 
@@ -58,4 +58,11 @@ test("only matching server-configured credentials can bootstrap an admin", () =>
 test("bulk deletion requires an explicit confirmation payload", () => {
   for (const input of [null, {}, { confirmation: true }, { confirmation: "delete" }]) assert.throws(() => deleteAllBlogsInput.parse(input))
   assert.equal(deleteAllBlogsInput.parse({ confirmation: "DELETE_ALL_BLOGS" }).confirmation, "DELETE_ALL_BLOGS")
+})
+
+test("selected bulk actions reject empty selections, unsafe IDs, and unconfirmed deletion", () => {
+  const id = "0123456789abcdef01234567"
+  for (const input of [{ action: "delete", ids: [id] }, { action: "publish", ids: [] }, { action: "publish", ids: [{ $ne: null }] }, { action: "publish", ids: ["invalid"] }, { action: "unknown", ids: [id] }]) assert.throws(() => bulkBlogsInput.parse(input))
+  assert.deepEqual(bulkBlogsInput.parse({ action: "publish", ids: [id, id.toUpperCase()] }).ids, [id])
+  assert.equal(bulkBlogsInput.parse({ action: "delete", ids: [id], confirmation: "DELETE_SELECTED_BLOGS" }).action, "delete")
 })

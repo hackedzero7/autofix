@@ -5,7 +5,7 @@ import { ZodError } from "zod"
 import { connectDB } from "@/lib/mongodb"
 import { CrmBlog, CrmSession, CrmUser, LoginAttempt } from "@/lib/crm-models"
 import { cookieName, createSession, currentUser, digest, hashPassword, verifyPassword } from "@/lib/crm-auth"
-import { blogInput, loginInput, parseImport, deleteAllBlogsInput } from "@/lib/crm-validation"
+import { blogInput, loginInput, parseImport, deleteAllBlogsInput, bulkBlogsInput } from "@/lib/crm-validation"
 
 import { matchingEnvAdmin } from "@/lib/crm-bootstrap"
 
@@ -90,6 +90,19 @@ async function handle(req: NextRequest, context: { params: Promise<{ path: strin
       const input = blogInput.parse(await body(req))
       await CrmBlog.init()
       return json(await CrmBlog.create(input), 201)
+    }
+    if (route === "blogs/bulk" && method === "POST") {
+      const input = bulkBlogsInput.parse(await body(req))
+      if (input.action === "delete") {
+        const result = await CrmBlog.deleteMany({ _id: { $in: input.ids } })
+        return json({ deletedCount: result.deletedCount })
+      }
+      const result = await CrmBlog.updateMany(
+        { _id: { $in: input.ids }, status: "draft" },
+        { $set: { status: "published", modifiedAt: new Date().toISOString().slice(0, 10) } },
+        { runValidators: true },
+      )
+      return json({ publishedCount: result.modifiedCount })
     }
     if (route === "blogs/import" && method === "POST") {
       const posts = parseImport(await body(req))

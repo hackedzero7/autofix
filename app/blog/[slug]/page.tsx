@@ -8,54 +8,13 @@ import { getPublishedBlogs, getPublishedBlogBySlug } from "@/lib/public-blogs"
 
 export const dynamic = "force-dynamic"
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.proautocare.co"
-
-
+import { articleMetadata, articleStructuredData, relatedArticles, serializeJsonLd } from "@/lib/blog-seo"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const blog = await getPublishedBlogBySlug(slug)
-
-  if (!blog) {
-    return {
-      title: "Blog Post Not Found",
-      description: "The requested blog post could not be found.",
-    }
-  }
-
-  return {
-    title: blog.title,
-    description: blog.excerpt,
-    alternates: {
-      canonical: `${siteUrl}/blog/${blog.slug}`,
-    },
-    keywords: blog.keywords,
-    authors: [{ name: blog.author }],
-    category: blog.category,
-    openGraph: {
-      title: blog.title,
-      description: blog.excerpt,
-      type: "article",
-      url: `${siteUrl}/blog/${blog.slug}`,
-      locale: "en_AE",
-      siteName: "Pro Auto Care",
-      publishedTime: blog.publishedAt,
-      modifiedTime: blog.modifiedAt || blog.publishedAt,
-      authors: [blog.author],
-      tags: blog.keywords,
-      images: [{ url: "/black-sports-car-red-lighting.png", width: 1200, height: 630, alt: blog.title }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: blog.title,
-      description: blog.excerpt,
-      images: ["/black-sports-car-red-lighting.png"],
-    },
-    robots: {
-      index: true,
-      follow: true,
-    },
-  }
+  if (!blog) notFound()
+  return articleMetadata(blog)
 }
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -66,31 +25,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
     notFound()
   }
 
-  const relatedPosts = (await getPublishedBlogs()).filter((post) => post.slug !== blog.slug).slice(0, 2)
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: blog.title,
-    description: blog.excerpt,
-    author: {
-      "@type": "Organization",
-      name: blog.author,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Pro Auto Care",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://www.proautocare.co/placeholder-logo.svg",
-      },
-    },
-    datePublished: blog.publishedAt,
-    dateModified: blog.modifiedAt || blog.publishedAt,
-    mainEntityOfPage: `${siteUrl}/blog/${blog.slug}`,
-    articleSection: blog.category,
-    keywords: blog.keywords.join(", "),
-    inLanguage: "en-AE",
-  }
+  const relatedPosts = relatedArticles(blog, await getPublishedBlogs())
+  const articleSchema = articleStructuredData(blog)
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -98,7 +34,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, "\u003c") }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleSchema) }}
       />
 
       <main className="min-h-screen bg-background text-foreground">
@@ -115,12 +51,12 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
               <span>{blog.author}</span>
               <span>•</span>
               <time dateTime={blog.publishedAt}>
-                {new Date(blog.publishedAt).toLocaleDateString("en-AE", { day: "numeric", month: "short", year: "numeric" })}
+                {new Date(blog.publishedAt).toLocaleDateString("en-AE", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })}
               </time>
               {blog.modifiedAt && (
                 <>
                   <span>•</span>
-                  <span>Updated {new Date(blog.modifiedAt).toLocaleDateString("en-AE", { day: "numeric", month: "short", year: "numeric" })}</span>
+                  <span>Updated {new Date(blog.modifiedAt).toLocaleDateString("en-AE", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })}</span>
                 </>
               )}
               <span>•</span>
@@ -161,7 +97,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
           </div>
 
           <div className="mt-12 rounded-2xl border border-border/20 bg-gradient-to-r from-[#1a1111] via-[#141414] to-[#1a1111] p-6 shadow-[0_12px_30px_rgba(255,0,0,0.08)]">
-            <h3 className="mb-4 font-serif text-2xl font-bold text-white">Need help with your vehicle?</h3>
+            <h2 className="mb-4 font-serif text-2xl font-bold text-white">Need help with your vehicle?</h2>
             <p className="mb-6 text-base leading-7 text-zinc-300">
               If your battery, AC, or vehicle system needs expert attention, Pro Auto Care can help with fast, reliable service in Abu Dhabi.
             </p>
@@ -169,20 +105,20 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
               <a href="tel:+971567304650" className="rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground transition-colors hover:bg-red-500">
                 Call Now
               </a>
-              <Link href="/" className="rounded-xl border border-border/30 px-5 py-3 font-semibold text-white transition-colors hover:border-primary hover:text-primary">
-                Back to Home
+              <Link href="/#services" className="rounded-xl border border-border/30 px-5 py-3 font-semibold text-white transition-colors hover:border-primary hover:text-primary">
+                Explore our vehicle services
               </Link>
             </div>
           </div>
 
           {relatedPosts.length > 0 && (
             <section className="mt-16">
-              <h3 className="mb-8 font-serif text-3xl font-bold text-white">Related articles</h3>
+              <h2 className="mb-8 font-serif text-3xl font-bold text-white">Related articles</h2>
               <div className="grid gap-6 md:grid-cols-2">
                 {relatedPosts.map((post) => (
                   <Link key={post.id} href={`/blog/${post.slug}`} className="rounded-2xl border border-border/20 bg-gradient-to-br from-[#131313] to-[#1a1111] p-6 transition-colors hover:border-primary/40 hover:shadow-[0_12px_30px_rgba(255,0,0,0.08)]">
                     <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-red-400">{post.category}</p>
-                    <h4 className="mb-3 text-2xl font-serif font-bold text-white">{post.title}</h4>
+                    <h3 className="mb-3 text-2xl font-serif font-bold text-white">{post.title}</h3>
                     <p className="text-zinc-300">{post.excerpt}</p>
                   </Link>
                 ))}

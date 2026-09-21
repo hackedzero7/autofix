@@ -16,6 +16,8 @@ const sectionSchema = new Schema({ heading: String, paragraphs: [String], list: 
 const blogSchema = new Schema({
   title: { type: String, required: true },
   slug: { type: String, required: true, unique: true },
+  metaTitle: String, metaDescription: String, noIndex: Boolean,
+  authorType: { type: String, enum: ["Person", "Organization"] },
   excerpt: String, category: String, author: String, readingTime: String,
   publishedAt: String, modifiedAt: String, keywords: [String], content: [sectionSchema],
   status: { type: String, enum: ["draft", "published"], default: "draft" },

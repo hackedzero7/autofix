@@ -11,13 +11,13 @@ export default function BlogCard({ post }: { post: BlogPost }) {
           {post.category}
         </span>
         <time dateTime={post.publishedAt} className="text-xs text-zinc-400">
-          {new Date(post.publishedAt).toLocaleDateString("en-AE", { day: "numeric", month: "short", year: "numeric" })}
+          {new Date(post.publishedAt).toLocaleDateString("en-AE", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })}
         </time>
       </div>
 
-      <h3 className="mb-3 text-2xl font-serif font-bold leading-tight text-white">
+      <h2 className="mb-3 text-2xl font-serif font-bold leading-tight text-white">
         {post.title}
-      </h3>
+      </h2>
 
       <p className="mb-5 text-base leading-relaxed text-zinc-300">{post.excerpt}</p>
 
@@ -31,7 +31,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
         href={`/blog/${post.slug}`}
         className="inline-flex items-center gap-2 font-semibold text-primary transition-colors duration-200 hover:text-red-400"
       >
-        Read More
+        Read {post.title}
         <ArrowRight className="h-4 w-4" />
       </Link>
     </article>

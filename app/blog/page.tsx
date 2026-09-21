@@ -8,10 +8,10 @@ import { getPublishedBlogs } from "@/lib/public-blogs"
 
 export const dynamic = "force-dynamic"
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.proautocare.co"
+import { siteUrl } from "@/lib/blog-seo"
 
 export const metadata: Metadata = {
-  title: "Auto Service Advice Blog | Pro Auto Care",
+  title: "Auto Service Advice Blog",
   description:
     "Read practical car battery, AC repair, and maintenance advice for drivers in Abu Dhabi and the UAE from Pro Auto Care.",
   keywords: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "Pro Auto Care",
     locale: "en_AE",
     type: "website",
-    images: [{ url: "/black-sports-car-red-lighting.png", width: 1200, height: 630, alt: "Pro Auto Care blog" }],
+    images: [{ url: "/black-sports-car-red-lighting.png", width: 1024, height: 573, alt: "Pro Auto Care blog" }],
   },
   twitter: {
     card: "summary_large_image",

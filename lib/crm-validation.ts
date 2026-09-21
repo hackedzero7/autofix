@@ -15,6 +15,10 @@ export const blogInput = z.object({
     list: z.array(z.string().trim().min(1).max(5000)).max(100).optional(),
     quote: z.string().trim().min(1).max(5000).optional(),
   }).refine(s => Boolean(s.heading || s.paragraphs?.length || s.list?.length || s.quote), "Section cannot be empty")).min(1).max(100),
+  metaTitle: text.optional(),
+  metaDescription: z.string().trim().min(1).max(2000).optional(),
+  noIndex: z.boolean().optional(),
+  authorType: z.enum(["Person", "Organization"]).optional(),
   status: z.enum(["draft", "published"]).default("draft"),
 })
 export const loginInput = z.object({ email: z.string().trim().email().max(254).transform(v => v.toLowerCase()), password: z.string().min(1).max(128) })

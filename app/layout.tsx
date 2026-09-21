@@ -17,7 +17,7 @@ const sourceSansPro = Source_Sans_Pro({
   variable: "--font-sans",
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.proautocare.co"
+import { siteUrl } from "@/lib/blog-seo"
 const siteName = "Pro Auto Care"
 const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
@@ -61,8 +61,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/black-sports-car-red-lighting.png",
-        width: 1200,
-        height: 630,
+        width: 1024,
+        height: 573,
         alt: "Pro Auto Care vehicle service and battery replacement in Abu Dhabi",
       },
     ],

@@ -10,5 +10,9 @@ export type BlogPost = {
   author: string
   readingTime: string
   keywords: string[]
+  metaTitle?: string
+  metaDescription?: string
+  noIndex?: boolean
+  authorType?: "Person" | "Organization"
   content: BlogSection[]
 }

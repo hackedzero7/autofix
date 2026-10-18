@@ -5,6 +5,8 @@
   "scripts": {
     "crm:create-admin": "node scripts/create-crm-admin.mjs",
     "test:crm": "node --test tests/crm-validation.test.mjs",
+    "test:mcp": "node --import ./tests/register-ts-loader.mjs --test tests/mcp-*.test.mjs",
+    "typecheck": "tsc --noEmit --incremental false",
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
@@ -12,6 +14,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
     "@radix-ui/react-aspect-ratio": "1.1.1",

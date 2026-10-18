@@ -2,6 +2,8 @@
 
 Only active administrators can log in or use the CRM APIs. Admins manage one shared blog library using MongoDB and Mongoose: create, edit, delete, search, export, and import blogs.
 
+Remote AI agents can use the same library through the authenticated MCP endpoint at `/mcp`. See [MCP-SETUP.md](./MCP-SETUP.md) for admin authorization, Vercel deployment, supported content fields, and weekly article automation.
+
 Public /blog pages, article details, related articles, and the sitemap read published blogs directly from MongoDB. Drafts are private. Publishing, unpublishing, editing, or deleting a blog is reflected on the next page request without rebuilding. No mock blog data is used.
 
 ## Setup

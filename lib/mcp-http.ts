@@ -6,7 +6,6 @@ type Dependencies = {
   config: () => { origin: string; resource: string }
   authenticate: (request: Request) => Promise<McpIdentity | null>
   createServer: (identity: McpIdentity) => McpServer
-  allowedOrigins?: () => string[]
 }
 const maxBodyBytes = 2 * 1024 * 1024
 
@@ -41,18 +40,16 @@ async function readJson(request: Request) {
 // A new server and transport per request avoids instance-local sessions on Vercel.
 export function createMcpHttpHandler(dependencies: Dependencies) {
   return async function handle(request: Request): Promise<Response> {
-    const headers = new Headers({ "Cache-Control": "no-store", Vary: "Origin", "X-Content-Type-Options": "nosniff" })
+    const headers = new Headers({
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Expose-Headers": "WWW-Authenticate, MCP-Protocol-Version",
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
+    })
     const json = (message: string, status: number) => Response.json({ error: message }, { status, headers })
     let server: McpServer | undefined
     try {
       const config = dependencies.config()
-      const origin = request.headers.get("origin")
-      const allowed = new Set([config.origin, ...(dependencies.allowedOrigins?.() || [])])
-      if (origin && !allowed.has(origin)) return json("Request origin is not allowed.", 403)
-      if (origin) {
-        headers.set("Access-Control-Allow-Origin", origin)
-        headers.set("Access-Control-Expose-Headers", "WWW-Authenticate, MCP-Protocol-Version")
-      }
       if (request.method === "OPTIONS") {
         headers.set("Access-Control-Allow-Methods", "POST, GET, DELETE, OPTIONS")
         headers.set("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept, MCP-Protocol-Version, MCP-Session-Id, Last-Event-ID")

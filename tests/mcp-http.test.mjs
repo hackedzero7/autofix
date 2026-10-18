@@ -12,7 +12,6 @@ let serversCreated = 0
 const handle = createMcpHttpHandler({
   config: () => ({ origin, resource: `${origin}/mcp` }),
   authenticate: async request => request.headers.get("authorization") === "Bearer valid" ? identity : null,
-  allowedOrigins: () => ["https://inspector.example"],
   createServer(auth) {
     serversCreated++
     const server = new McpServer({ name: "test-blog-server", version: "1.0.0" })
@@ -59,13 +58,13 @@ test("stateless SDK initialize, tool discovery and execution work on separate re
   assert.equal(notified.status, 202)
 })
 
-test("unapproved browser origins fail before authentication and approved preflights work", async () => {
-  const denied = await handle(request(rpc("tools/list"), { Origin: "https://untrusted.example" }))
-  assert.equal(denied.status, 403)
-  assert.equal(denied.headers.get("access-control-allow-origin"), null)
+test("browser requests and preflights are accepted from any origin", async () => {
+  const response = await handle(request(rpc("tools/list"), { Origin: "https://untrusted.example" }))
+  assert.equal(response.status, 200)
+  assert.equal(response.headers.get("access-control-allow-origin"), "*")
   const preflight = await handle(new Request(`${origin}/mcp`, { method: "OPTIONS", headers: { Origin: "https://inspector.example" } }))
   assert.equal(preflight.status, 204)
-  assert.equal(preflight.headers.get("access-control-allow-origin"), "https://inspector.example")
+  assert.equal(preflight.headers.get("access-control-allow-origin"), "*")
   assert.match(preflight.headers.get("access-control-allow-headers"), /Authorization/)
 })
 

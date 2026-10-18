@@ -93,7 +93,6 @@ export async function authorizeGet(request: Request) {
 }
 export async function authorizePost(request: Request) {
   const config = oauthServerConfig()
-  if (request.headers.get("origin") !== config.origin) throw new OAuthError("access_denied", "The consent request origin is not allowed.", 403)
   const params = await readOAuthBody(request, "form")
   const token = requireString(params.consent_token, "consent_token", 100), csrf = requireString(params.csrf, "csrf", 100)
   if (!validOpaqueToken(token, "consent") || !validOpaqueToken(csrf, "csrf") || !["approve", "deny"].includes(String(params.decision))) throw new OAuthError("invalid_request", "Invalid consent response.")

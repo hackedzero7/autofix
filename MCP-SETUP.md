@@ -103,7 +103,7 @@ MCP_SERVER_URL="http://localhost:3000/mcp"
 
 `MCP_SERVER_URL` is the canonical MCP address. It can accept the origin or the complete endpoint; use the complete `/mcp` URL for clarity. `NEXT_PUBLIC_SITE_URL` is the public website origin **without a path** and controls article canonical URLs, social metadata, and the sitemap. Restart Next.js after changing environment variables.
 
-`MCP_ALLOWED_ORIGINS` is optional: a comma-separated list of additional browser origins, for example `http://localhost:6274,http://127.0.0.1:6274` when a local browser client needs them. Browser requests with an `Origin` must match the canonical server origin or that configured list; server-to-server requests without `Origin` are allowed. OAuth callback URIs and browser `Origin` values are separate settings; do not copy callback paths into this variable.
+The MCP endpoint accepts browser requests from any origin using wildcard CORS; MCP operations still require a valid bearer token and authorized scopes. OAuth callback URIs are validated separately against the registered client.
 
 ```powershell
 npm.cmd run dev
@@ -161,7 +161,7 @@ Start the official Inspector:
 npx.cmd @modelcontextprotocol/inspector@latest
 ```
 
-Open the URL printed by Inspector and use its printed proxy/session token. Select **Streamable HTTP**, enter the full `/mcp` URL, and complete OAuth with automatic registration and CRM browser consent. Add the Inspector's browser origin to `MCP_ALLOWED_ORIGINS` only if the browser is making requests directly and the server reports an Origin error. Inspector usage is covered in [Vercel's official MCP guide](https://vercel.com/docs/mcp/deploy-mcp-servers-to-vercel).
+Open the URL printed by Inspector and use its printed proxy/session token. Select **Streamable HTTP**, enter the full `/mcp` URL, and complete OAuth with automatic registration and CRM browser consent. Inspector usage is covered in [Vercel's official MCP guide](https://vercel.com/docs/mcp/deploy-mcp-servers-to-vercel).
 
 For a read-only check, grant `blogs:read`, list tools/resources/prompts, read `blog://schema`, and call `blogs_list`. If the library has an existing article, call `blogs_get` for its slug. `blogs_validate` can check a proposed article without saving. Verify that a write call is rejected when only read permission is granted. Exercise real create/update/delete only in a dedicated test database or with a specifically approved disposable test article.
 
@@ -257,7 +257,6 @@ To revoke a connection programmatically, its OAuth client submits a form-encoded
 | `403` / insufficient scope | Reconnect/consent with the required `blogs:*` permission; changing prompts cannot grant it |
 | Consent/login loops | Canonical hostname, `MCP_SERVER_URL`, HTTPS cookies, redirects and browser session |
 | OAuth invalid redirect/resource | Use the exact registered callback and the full canonical `/mcp` resource at authorization and token exchange |
-| Browser Origin rejected | Add only the actual browser origin to `MCP_ALLOWED_ORIGINS`, then redeploy/restart |
 | Refresh rejected | Save the newly rotated refresh token after every refresh; reconnect on expiry or token reuse |
 | MongoDB timeout | Production URI, database credentials, Atlas cluster status/DNS/TLS, runtime outbound network access |
 | Stale article version | Read the post again, review intervening changes, retry with the latest `updatedAt` |

@@ -64,7 +64,7 @@ test("OAuth request parsing rejects duplicate params, malformed JSON, and oversi
   await assert.rejects(() => readOAuthBody(req("x=1", "text/plain"), "form"), error => error.status === 415)
 })
 
-test("browser consent rejects absent or foreign origins before accessing sessions", async () => {
+test("browser consent accepts absent or foreign origins but validates the consent response", async () => {
   const previousUrl = process.env.MCP_SERVER_URL
   process.env.MCP_SERVER_URL = "https://example.com/mcp"
   try {
@@ -73,8 +73,8 @@ test("browser consent rejects absent or foreign origins before accessing session
       if (origin !== undefined) headers.Origin = origin
       const request = new Request("https://example.com/oauth/authorize", { method: "POST", headers, body: "decision=approve" })
       const response = await oauthEndpoint(() => authorizePost(request))
-      assert.equal(response.status, 403)
-      assert.equal((await response.json()).error, "access_denied")
+      assert.equal(response.status, 400)
+      assert.equal((await response.json()).error, "invalid_request")
     }
   } finally {
     if (previousUrl === undefined) delete process.env.MCP_SERVER_URL; else process.env.MCP_SERVER_URL = previousUrl
